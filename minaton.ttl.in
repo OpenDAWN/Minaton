@@ -1,0 +1,52 @@
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ui: <http://lv2plug.in/ns/extensions/ui#> .
+
+<http://nickbailey.co.nr/nickbailey#me>
+	a foaf:Person ;
+	foaf:name "David Robillard" ;
+	foaf:mbox <mailto:d@nickbailey.co.nr> ;
+	rdfs:seeAlso <http://nickbailey.co.nr/nickbailey> .
+
+<http://nickbailey.co.nr/plugins/minaton>
+	a lv2:Plugin ,
+		lv2:AmplifierPlugin ;
+	doap:maintainer <http://nickbailey.co.nr/nickbailey#me> ;
+	doap:name "GL Amplifier" ;
+	doap:license <http://opensource.org/licenses/isc> ;
+	lv2:optionalFeature lv2:hardRTCapable ;
+	ui:ui <http://nickbailey.co.nr/plugins/minaton#ui> ;
+	lv2:port [
+		a lv2:InputPort ,
+			lv2:ControlPort ;
+		lv2:index 0 ;
+		lv2:symbol "gain" ;
+		lv2:name "Gain" ;
+		lv2:default 0.0 ;
+		lv2:minimum -90.0 ;
+		lv2:maximum 24.0
+	] , [
+		a lv2:AudioPort ,
+			lv2:InputPort ;
+		lv2:index 1 ;
+		lv2:symbol "in" ;
+		lv2:name "In"
+	] , [
+		a lv2:AudioPort ,
+			lv2:OutputPort ;
+		lv2:index 2 ;
+		lv2:symbol "out" ;
+		lv2:name "Out"
+	] .
+
+<http://nickbailey.co.nr/plugins/minaton#ui>
+	a <@UI_TYPE@> ;
+	lv2:requiredFeature ui:idleInterface ;
+	lv2:extensionData ui:idleInterface ;
+	ui:portNotification [
+		ui:plugin <http://nickbailey.co.nr/plugins/minaton> ;
+		lv2:symbol "gain"
+	] .

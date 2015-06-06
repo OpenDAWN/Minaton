@@ -1,0 +1,13 @@
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ui: <http://lv2plug.in/ns/extensions/ui#> .
+
+<http://nickbailey.co.nr/plugins/minaton>
+	a lv2:Plugin ;
+	lv2:binary <minaton.so> ;
+	rdfs:seeAlso <minaton.ttl> .
+
+<http://nickbailey.co.nr/plugins/minaton#ui>
+	a <http://lv2plug.in/ns/extensions/ui#X11UI> ;
+	ui:binary <minaton_ui.so> ;
+	rdfs:seeAlso <minaton.ttl> .
