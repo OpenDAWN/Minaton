@@ -7,15 +7,15 @@
 
 <http://nickbailey.co.nr/nickbailey#me>
 	a foaf:Person ;
-	foaf:name "David Robillard" ;
+	foaf:name "Nick Bailey" ;
 	foaf:mbox <mailto:d@nickbailey.co.nr> ;
 	rdfs:seeAlso <http://nickbailey.co.nr/nickbailey> .
 
 <http://nickbailey.co.nr/plugins/minaton>
 	a lv2:Plugin ,
-		lv2:AmplifierPlugin ;
+		lv2:Minaton ;
 	doap:maintainer <http://nickbailey.co.nr/nickbailey#me> ;
-	doap:name "GL Amplifier" ;
+	doap:name "Minaton synth" ;
 	doap:license <http://opensource.org/licenses/isc> ;
 	lv2:optionalFeature lv2:hardRTCapable ;
 	ui:ui <http://nickbailey.co.nr/plugins/minaton#ui> ;

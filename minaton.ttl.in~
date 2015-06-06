@@ -7,7 +7,7 @@
 
 <http://nickbailey.co.nr/nickbailey#me>
 	a foaf:Person ;
-	foaf:name "Nick Bailey" ;
+	foaf:name "David Robillard" ;
 	foaf:mbox <mailto:d@nickbailey.co.nr> ;
 	rdfs:seeAlso <http://nickbailey.co.nr/nickbailey> .
 
@@ -43,7 +43,7 @@
 	] .
 
 <http://nickbailey.co.nr/plugins/minaton#ui>
-	a <http://lv2plug.in/ns/extensions/ui#X11UI> ;
+	a <@UI_TYPE@> ;
 	lv2:requiredFeature ui:idleInterface ;
 	lv2:extensionData ui:idleInterface ;
 	ui:portNotification [
