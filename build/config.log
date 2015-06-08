@@ -1,13 +1,13 @@
-# project minaton.lv2 (0.2.0) configured on Sat Jun  6 23:57:01 2015 by
+# project minaton.lv2 (0.2.0) configured on Sun Jun  7 12:05:10 2015 by
 # waf 1.8.5 (abi 98, python 20706f0 on linux2)
 # using ./waf configure
 #
 ----------------------------------------
 Setting top to
-/home/mouldy-marmoset/Nicks/Audio programming/Minaton
+/home/cypher_thor/Nicks/Audio programming/Minaton
 ----------------------------------------
 Setting out to
-/home/mouldy-marmoset/Nicks/Audio programming/Minaton/build
+/home/cypher_thor/Nicks/Audio programming/Minaton/build
 ----------------------------------------
 Checking for 'gcc' (C compiler)
 find program=['gcc', 'cc'] paths=['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/games', '/usr/local/games'] var='CC' -> ['/usr/bin/gcc']
@@ -24,12 +24,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_aa7954132be6e9ea8dede35001aee47e/test.c[0m
+[1/2] Compiling [32mbuild/.conf_check_06ab6a9ab620379c73f2d40179d96925/test.c[0m
 
-['/usr/bin/gcc', '-I/home/mouldy-marmoset/Nicks/Audio programming/Minaton', '-DNDEBUG', '-fshow-column', '-std=c99', '-I/home/mouldy-marmoset/Nicks/Audio programming/Minaton/build/.conf_check_aa7954132be6e9ea8dede35001aee47e/testbuild', '../test.c', '-c', '-o', '/home/mouldy-marmoset/Nicks/Audio programming/Minaton/build/.conf_check_aa7954132be6e9ea8dede35001aee47e/testbuild/test.c.1.o']
-[2/2] Linking [33mbuild/.conf_check_aa7954132be6e9ea8dede35001aee47e/testbuild/testprog[0m
+['/usr/bin/gcc', '-I/home/cypher_thor/Nicks/Audio programming/Minaton', '-DNDEBUG', '-fshow-column', '-std=c99', '-I/home/cypher_thor/Nicks/Audio programming/Minaton/build/.conf_check_06ab6a9ab620379c73f2d40179d96925/testbuild', '../test.c', '-c', '-o', '/home/cypher_thor/Nicks/Audio programming/Minaton/build/.conf_check_06ab6a9ab620379c73f2d40179d96925/testbuild/test.c.1.o']
+[2/2] Linking [33mbuild/.conf_check_06ab6a9ab620379c73f2d40179d96925/testbuild/testprog[0m
 
-['/usr/bin/gcc', 'test.c.1.o', '-o', '/home/mouldy-marmoset/Nicks/Audio programming/Minaton/build/.conf_check_aa7954132be6e9ea8dede35001aee47e/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/gcc', 'test.c.1.o', '-o', '/home/cypher_thor/Nicks/Audio programming/Minaton/build/.conf_check_06ab6a9ab620379c73f2d40179d96925/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ----------------------------------------
 Checking for program 'pkg-config'

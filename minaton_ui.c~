@@ -82,7 +82,7 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	self->write      = write_function;
 	self->controller = controller;
 	self->width      = 256;
-	self->height     = 128;
+	self->height     = 32;
 	self->exit       = false;
 
 	// Get parent window and resize API from features
