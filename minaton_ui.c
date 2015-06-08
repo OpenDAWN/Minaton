@@ -7,6 +7,7 @@
 #include <string.h>
 #include <math.h>
 
+
 #include <cairo/cairo.h>
 
 #include "lv2/lv2plug.in/ns/extensions/ui/ui.h"
@@ -33,6 +34,7 @@ onReshape(PuglView* view, int width, int height)
 static void
 onDisplay(PuglView* view)
 {
+
 	cairo_t* cr;
 }
 

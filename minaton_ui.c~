@@ -7,6 +7,7 @@
 #include <string.h>
 #include <math.h>
 
+
 #include <cairo/cairo.h>
 
 #include "lv2/lv2plug.in/ns/extensions/ui/ui.h"
@@ -33,7 +34,8 @@ onReshape(PuglView* view, int width, int height)
 static void
 onDisplay(PuglView* view)
 {
-	cairo_t* cr;
+
+	cairo_t* cr = puglGetContext(view);
 }
 
 static void
@@ -82,7 +84,7 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	self->write      = write_function;
 	self->controller = controller;
 	self->width      = 256;
-	self->height     = 32;
+	self->height     = 128;
 	self->exit       = false;
 
 	// Get parent window and resize API from features
