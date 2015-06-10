@@ -22,8 +22,6 @@
 #ifndef PUGL_COMMON_H_INCLUDED
 #define PUGL_COMMON_H_INCLUDED
 
-#include <stdint.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

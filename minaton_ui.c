@@ -7,7 +7,6 @@
 #include <string.h>
 #include <math.h>
 
-
 #include <cairo/cairo.h>
 
 #include "lv2/lv2plug.in/ns/extensions/ui/ui.h"
@@ -62,7 +61,7 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
 }
 
 static void
-onScroll(PuglView* view, float dx, float dy)
+onScroll(PuglView* view, int x, int y, float dx, float dy)
 {
 	fprintf(stderr, "Scroll %f %f\n", dx, dy);
 }
@@ -104,15 +103,27 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 		return NULL;
 	}
 
-	// Set up GL UI
-	self->view = puglCreate(parent, "minaton", self->width, self->height, true);
-	puglSetHandle(self->view, self);
+	// Set up CAIRO UI
+
+	self->view = puglInit(NULL, NULL);
+	puglInitWindowSize(self->view, self->width, self->height);
+	puglInitResizable(self->view, true);
+	puglInitContextType(self->view, PUGL_CAIRO);
+	puglIgnoreKeyRepeat(self->view, false);
+
 	puglSetDisplayFunc(self->view, onDisplay);
 	puglSetReshapeFunc(self->view, onReshape);
 	puglSetKeyboardFunc(self->view, onKeyboard);
 	puglSetMotionFunc(self->view, onMotion);
 	puglSetMouseFunc(self->view, onMouse);
 	puglSetScrollFunc(self->view, onScroll);
+
+	puglCreateWindow(self->view, "minaton");
+	puglSetHandle(self->view, self);
+
+	//puglSetEventFunc(view, onEvent);
+	//puglSetDisplayFunc(view, onDisplay);
+	//puglSetCloseFunc(view, onClose);
 
 	if (resize) {
 		resize->ui_resize(resize->handle, self->width, self->height);
