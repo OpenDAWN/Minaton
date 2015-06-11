@@ -30,12 +30,11 @@ typedef struct {
 	int         h;
 	bool        pressed;
 	const char* label;
-} deliriumUIObject;
+} deliriumUIWidget;
 
-void initDeliriumUI();
 void cleanUpDeliriumUI();
-int adDeliriumUIObject();
-void displayDeliriumUIObject(cairo_t*, int);
+int addDeliriumUIWidget(int,int,int,int,char*);
+void displayDeliriumUIWidget(cairo_t*, int);
 
 static void roundedBox(cairo_t* cr, double x, double y, double w, double h)
 {

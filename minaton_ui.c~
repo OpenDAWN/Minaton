@@ -38,7 +38,8 @@ onDisplay(PuglView* view)
 
 	cairo_t* cr = puglGetContext(view);
 
-	displayDeliriumUIObject(cr, 1);
+	displayDeliriumUIWidget(cr, 0);
+	displayDeliriumUIWidget(cr, 1);
 }
 
 static void
@@ -112,6 +113,8 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 		free(self);
 		return NULL;
 	}
+
+	 addDeliriumUIWidget(0,0,128,64,"Test");
 
 	// Set up pugl window
 

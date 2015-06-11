@@ -1,58 +1,43 @@
 
 #include "deliriumUI.h"
 
-static deliriumUIObject* deliriumUIObjects;
-static int numberOfUIObjects = 1;
+static deliriumUIWidget* deliriumUIWidgets = NULL;
+static int numberOfUIWidgets = 1;
+
 
 
 //------------------------------------------------------------------
-// Initialise object list
+// Add widget
 
-void initDeliriumUI()
+int addDeliriumUIWidget(int _x, int _y, int _w, int _h, char* _label)
 {
-	deliriumUIObjects = malloc( sizeof(deliriumUIObject) * numberOfUIObjects );
+	deliriumUIWidgets = realloc( deliriumUIWidgets, sizeof(deliriumUIWidget) * numberOfUIWidgets );
 
-	deliriumUIObjects[numberOfUIObjects].x = 16;
-	deliriumUIObjects[numberOfUIObjects].y = 16;
-	deliriumUIObjects[numberOfUIObjects].w = 128;
-	deliriumUIObjects[numberOfUIObjects].h = 64;
-	deliriumUIObjects[numberOfUIObjects].pressed = false;
-	deliriumUIObjects[numberOfUIObjects].label = "Test";
+	deliriumUIWidgets[numberOfUIWidgets-1].x = _x;
+	deliriumUIWidgets[numberOfUIWidgets-1].y = _y;
+	deliriumUIWidgets[numberOfUIWidgets-1].w = _w;
+	deliriumUIWidgets[numberOfUIWidgets-1].h = _h;
+	deliriumUIWidgets[numberOfUIWidgets-1].pressed = false;
+	deliriumUIWidgets[numberOfUIWidgets-1].label = _label;
 
+	numberOfUIWidgets++;
 
+	return numberOfUIWidgets-1; // return handle number
 } 
 
 //------------------------------------------------------------------
-// Initialise object list
+// Initialise widget list
 
-int adDeliriumUIObject()
-{
-	numberOfUIObjects++;
-
-	deliriumUIObjects = realloc( deliriumUIObjects, sizeof(deliriumUIObject) * numberOfUIObjects );
-
-	deliriumUIObjects[numberOfUIObjects].x = 0;
-	deliriumUIObjects[numberOfUIObjects].y = 0;
-	deliriumUIObjects[numberOfUIObjects].w = 0;
-	deliriumUIObjects[numberOfUIObjects].h = 0;
-	deliriumUIObjects[numberOfUIObjects].pressed = false;
-
-	return numberOfUIObjects; // return handle number
-} 
-
-//------------------------------------------------------------------
-// Initialise object list
-
-void displayDeliriumUIObject(cairo_t* cr, int objectNumber)
+void displayDeliriumUIWidget(cairo_t* cr, int widgetNumber)
 {
 	// Draw base
-	if (deliriumUIObjects[objectNumber].pressed) {
+	if (deliriumUIWidgets[widgetNumber].pressed) {
 		cairo_set_source_rgba(cr, 0.4, 0.9, 0.1, 1);
 	} else {
 		cairo_set_source_rgba(cr, 0.3, 0.5, 0.1, 1);
 	}
-	roundedBox(cr, deliriumUIObjects[objectNumber].x, deliriumUIObjects[objectNumber].y,
-		deliriumUIObjects[objectNumber].w, deliriumUIObjects[objectNumber].h);
+	roundedBox(cr, deliriumUIWidgets[widgetNumber].x, deliriumUIWidgets[widgetNumber].y,
+		deliriumUIWidgets[widgetNumber].w, deliriumUIWidgets[widgetNumber].h);
 	cairo_fill_preserve(cr);
 
 	// Draw border
@@ -63,21 +48,21 @@ void displayDeliriumUIObject(cairo_t* cr, int objectNumber)
 	// Draw label
 	cairo_text_extents_t extents;
 	cairo_set_font_size(cr, 32.0);
-	cairo_text_extents(cr, deliriumUIObjects[objectNumber].label, &extents);
+	cairo_text_extents(cr, deliriumUIWidgets[widgetNumber].label, &extents);
 	cairo_move_to(cr,
-	              (deliriumUIObjects[objectNumber].x + deliriumUIObjects[objectNumber].w / 2) - extents.width / 2,
-	              (deliriumUIObjects[objectNumber].y + deliriumUIObjects[objectNumber].h / 2) + extents.height / 2);
+	              (deliriumUIWidgets[widgetNumber].x + deliriumUIWidgets[widgetNumber].w / 2) - extents.width / 2,
+	              (deliriumUIWidgets[widgetNumber].y + deliriumUIWidgets[widgetNumber].h / 2) + extents.height / 2);
 	cairo_set_source_rgba(cr, 0, 0, 0, 1);
-	cairo_show_text(cr, deliriumUIObjects[objectNumber].label);
+	cairo_show_text(cr, deliriumUIWidgets[widgetNumber].label);
 }
 
 
 //------------------------------------------------------------------
-// Initialise object list
+// Initialise widget list
 
 void cleanUpDeliriumUI()
 {
-	free(deliriumUIObjects);
+	free(deliriumUIWidgets);
 }
 
 
