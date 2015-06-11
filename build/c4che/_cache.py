@@ -8,13 +8,13 @@ CC_NAME = 'gcc'
 CC_SRC_F = []
 CC_TGT_F = ['-c', '-o']
 CC_VERSION = ('4', '8', '2')
-CFLAGS = ['-I/home/mouldy-marmoset/Nicks/Audio programming/Minaton', '-DNDEBUG', '-fshow-column', '-std=c99']
+CFLAGS = ['-I/home/cypher_thor/Nicks/Audio programming/Minaton', '-DNDEBUG', '-fshow-column', '-std=c99']
 CFLAGS_MACBUNDLE = ['-fPIC']
 CFLAGS_cshlib = ['-fPIC']
 CHECKED_LV2_1_4_1 = 2
 COMPILER_CC = 'gcc'
 CPPPATH_ST = '-I%s'
-CXXFLAGS = ['-I/home/mouldy-marmoset/Nicks/Audio programming/Minaton', '-DNDEBUG', '-fshow-column']
+CXXFLAGS = ['-I/home/cypher_thor/Nicks/Audio programming/Minaton', '-DNDEBUG', '-fshow-column']
 DATADIR = '/usr/local/share'
 DEBUG = False
 DEFINES = ['HAVE_GL_GLU_H=1']

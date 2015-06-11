@@ -22,7 +22,7 @@
 */
 
 
-#define PUGL_HAVE_CAIRO
+#define PUGL_HAVE_CAIRO;
 
 #include <stdio.h>
 #include <stdint.h>

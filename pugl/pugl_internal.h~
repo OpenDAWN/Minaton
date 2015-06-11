@@ -28,6 +28,8 @@
    PUGL_HAVE_GL:    Include OpenGL support code.
 */
 
+bool PUGL_HAVE_CAIRO = true;
+
 #include "pugl/pugl.h"
 #include "pugl/event.h"
 

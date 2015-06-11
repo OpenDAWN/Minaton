@@ -11,6 +11,7 @@
 
 #include "lv2/lv2plug.in/ns/extensions/ui/ui.h"
 #include "pugl/pugl.h"
+#include "deliriumUI/deliriumUI.h"
 
 #define minaton_UI_URI "http://nickbailey.co.nr/plugins/minaton#ui"
 
@@ -30,11 +31,14 @@ onReshape(PuglView* view, int width, int height)
 
 }
 
+
 static void
 onDisplay(PuglView* view)
 {
 
-	cairo_t* cr;
+	cairo_t* cr = puglGetContext(view);
+
+	displayDeliriumUIObject(cr, 1);
 }
 
 static void
@@ -61,10 +65,11 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
 }
 
 static void
-onScroll(PuglView* view, float dx, float dy)
+onScroll(PuglView* view, int x, int y, float dx, float dy)
 {
 	fprintf(stderr, "Scroll %f %f\n", dx, dy);
 }
+
 
 static LV2UI_Handle
 instantiate(const LV2UI_Descriptor*   descriptor,
@@ -86,10 +91,15 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	self->height     = 128;
 	self->exit       = false;
 
+
+	deliriumWindow.originalWidth = self->width;
+	deliriumWindow.originalHeight = self->height;
+
 	// Get parent window and resize API from features
 	PuglNativeWindow parent = 0;
 	LV2UI_Resize*    resize = NULL;
 	for (int i = 0; features && features[i]; ++i) {
+		printf("Feature %s\n", features[i]->URI );
 		if (!strcmp(features[i]->URI, LV2_UI__parent)) {
 			parent = (PuglNativeWindow)features[i]->data;
 		} else if (!strcmp(features[i]->URI, LV2_UI__resize)) {
@@ -103,9 +113,10 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 		return NULL;
 	}
 
-	// Set up CAIRO UI
+	// Set up pugl window
 
 	self->view = puglInit(NULL, NULL);
+	puglInitWindowParent(self->view, parent);
 	puglInitWindowSize(self->view, self->width, self->height);
 	puglInitResizable(self->view, true);
 	puglInitContextType(self->view, PUGL_CAIRO);
@@ -120,10 +131,7 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 
 	puglCreateWindow(self->view, "minaton");
 	puglSetHandle(self->view, self);
-
-	//puglSetEventFunc(view, onEvent);
-	//puglSetDisplayFunc(view, onDisplay);
-	//puglSetCloseFunc(view, onClose);
+	puglShowWindow(self->view);
 
 	if (resize) {
 		resize->ui_resize(resize->handle, self->width, self->height);
@@ -149,10 +157,15 @@ idle(LV2UI_Handle handle)
 static void
 cleanup(LV2UI_Handle handle)
 {
+
 	minatonUI* self = (minatonUI*)handle;
 	self->exit = true;
+
+	fprintf(stderr, "\nMinaton shutting down........\n");
+
 	puglDestroy(self->view);
 	free(self);
+
 }
 
 static void
@@ -162,7 +175,7 @@ port_event(LV2UI_Handle handle,
            uint32_t     format,
            const void*  buffer)
 {
-	//minatonUI* self = (minatonUI*)handle;
+	minatonUI* self = (minatonUI*)handle;
 }
 
 static const LV2UI_Idle_Interface idle_iface = { idle };

@@ -165,25 +165,10 @@ PUGL_API void
 puglInitWindowSize(PuglView* view, int width, int height);
 
 /**
-   Set the minimum window size before creating a window.
-*/
-PUGL_API void
-puglInitWindowMinSize(PuglView* view, int width, int height);
-
-/**
    Enable or disable resizing before creating a window.
 */
 PUGL_API void
 puglInitResizable(PuglView* view, bool resizable);
-
-/**
-   Set transient parent before creating a window.
-
-   On X11, parent_id must be a Window.
-   On OSX, parent_id must be an NSView*.
-*/
-PUGL_API void
-puglInitTransientFor(PuglView* view, uintptr_t parent);
 
 /**
    Set the context type before creating a window.
@@ -271,6 +256,13 @@ puglGetEventTimestamp(PuglView* view);
 */
 PUGL_API int
 puglGetModifiers(PuglView* view);
+
+/**
+   Get a string of the event type
+*/
+PUGL_API const char*
+puglEventGetTypeString( PuglEventType type );
+
 
 /**
    Ignore synthetic repeated key events.
