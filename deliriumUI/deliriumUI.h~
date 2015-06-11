@@ -9,6 +9,10 @@ typedef struct {
 	int originalHeight;
 	int currentWidth;
 	int currentHeight;
+	int gridX;
+	int gridY;
+	int widgetX;
+	int widgetY;
 } delWin;
 
 static delWin deliriumWindow;
@@ -33,7 +37,9 @@ typedef struct {
 } deliriumUIWidget;
 
 void cleanUpDeliriumUI();
-int addDeliriumUIWidget(int,int,int,int,char*);
+void setDeliriumUIGridSize(int, int, int, int);
+void setDeliriumUICurrentWindowSize(int, int);
+int addDeliriumUIWidget(int, int, int, int, char*);
 void displayDeliriumUIWidget(cairo_t*, int);
 
 static void roundedBox(cairo_t* cr, double x, double y, double w, double h)

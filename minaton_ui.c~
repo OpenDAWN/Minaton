@@ -28,7 +28,7 @@ typedef struct {
 static void
 onReshape(PuglView* view, int width, int height)
 {
-
+	setDeliriumUICurrentWindowSize(width, height);
 }
 
 
@@ -38,8 +38,13 @@ onDisplay(PuglView* view)
 
 	cairo_t* cr = puglGetContext(view);
 
+	/* Set surface to opaque color (r, g, b) */
+	cairo_set_source_rgb (cr, 0.1,0,0);
+	cairo_paint (cr);
+
 	displayDeliriumUIWidget(cr, 0);
 	displayDeliriumUIWidget(cr, 1);
+	displayDeliriumUIWidget(cr, 2);
 }
 
 static void
@@ -88,13 +93,12 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 
 	self->write      = write_function;
 	self->controller = controller;
-	self->width      = 256;
-	self->height     = 128;
+	self->width      = 480;
+	self->height     = 256;
 	self->exit       = false;
 
-
-	deliriumWindow.originalWidth = self->width;
-	deliriumWindow.originalHeight = self->height;
+	
+	setDeliriumUIGridSize(self->width, self->height, 8, 8);
 
 	// Get parent window and resize API from features
 	PuglNativeWindow parent = 0;
@@ -114,7 +118,9 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 		return NULL;
 	}
 
-	 addDeliriumUIWidget(0,0,128,64,"Test");
+	 addDeliriumUIWidget(0,0,2,1,"Test");
+	 addDeliriumUIWidget(0,1,2,1,"Frog");
+	 addDeliriumUIWidget(0,2,4,1,"Abracadabra");
 
 	// Set up pugl window
 

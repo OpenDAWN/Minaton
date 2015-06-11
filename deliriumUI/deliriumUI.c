@@ -26,32 +26,64 @@ int addDeliriumUIWidget(int _x, int _y, int _w, int _h, char* _label)
 } 
 
 //------------------------------------------------------------------
+// set packing grid size
+
+void setDeliriumUIGridSize(int _w, int _h, int _x, int _y)
+{
+	deliriumWindow.originalWidth = _w;
+	deliriumWindow.originalHeight = _h;
+	deliriumWindow.currentWidth = _w;
+	deliriumWindow.currentHeight = _h;
+	deliriumWindow.gridX = _x;
+	deliriumWindow.gridY = _y;
+	deliriumWindow.widgetWidth = _w / _x;
+	deliriumWindow.widgetHeight = _h / _y;
+}
+
+//------------------------------------------------------------------
+// set current window size
+
+void setDeliriumUICurrentWindowSize(int _w, int _h)
+{
+	deliriumWindow.currentWidth = _w;
+	deliriumWindow.currentHeight = _h;
+	deliriumWindow.widgetWidth = _w / deliriumWindow.gridX;
+	deliriumWindow.widgetHeight = _h / deliriumWindow.gridY;
+}
+
+//------------------------------------------------------------------
 // Initialise widget list
 
 void displayDeliriumUIWidget(cairo_t* cr, int widgetNumber)
 {
+
+
+	int x = deliriumUIWidgets[widgetNumber].x * deliriumWindow.widgetWidth;
+	int y = deliriumUIWidgets[widgetNumber].y * deliriumWindow.widgetHeight;
+	int w = deliriumUIWidgets[widgetNumber].w * deliriumWindow.widgetWidth;
+	int h = deliriumUIWidgets[widgetNumber].h * deliriumWindow.widgetHeight;
+
 	// Draw base
 	if (deliriumUIWidgets[widgetNumber].pressed) {
-		cairo_set_source_rgba(cr, 0.4, 0.9, 0.1, 1);
+		cairo_set_source_rgba(cr, 0.3, 0.3, 0.3, 1);
 	} else {
-		cairo_set_source_rgba(cr, 0.3, 0.5, 0.1, 1);
+		cairo_set_source_rgba(cr, 0.5, 0.5, 0.5, 1);
 	}
-	roundedBox(cr, deliriumUIWidgets[widgetNumber].x, deliriumUIWidgets[widgetNumber].y,
-		deliriumUIWidgets[widgetNumber].w, deliriumUIWidgets[widgetNumber].h);
+	roundedBox(cr, x, y, w, h);
 	cairo_fill_preserve(cr);
 
 	// Draw border
-	cairo_set_source_rgba(cr, 0.4, 0.9, 0.1, 1);
+	cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 1);
 	cairo_set_line_width(cr, 4.0);
 	cairo_stroke(cr);
 
 	// Draw label
 	cairo_text_extents_t extents;
-	cairo_set_font_size(cr, 32.0);
+	cairo_set_font_size(cr, deliriumWindow.widgetHeight / 1.5);
 	cairo_text_extents(cr, deliriumUIWidgets[widgetNumber].label, &extents);
 	cairo_move_to(cr,
-	              (deliriumUIWidgets[widgetNumber].x + deliriumUIWidgets[widgetNumber].w / 2) - extents.width / 2,
-	              (deliriumUIWidgets[widgetNumber].y + deliriumUIWidgets[widgetNumber].h / 2) + extents.height / 2);
+	              (x + w / 2) - extents.width / 2,
+	              (y + h / 2) + extents.height / 2);
 	cairo_set_source_rgba(cr, 0, 0, 0, 1);
 	cairo_show_text(cr, deliriumUIWidgets[widgetNumber].label);
 }
