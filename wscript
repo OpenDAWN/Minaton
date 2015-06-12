@@ -86,7 +86,7 @@ def build(bld):
               name         = 'minaton_ui',
               target       = '%s/minaton_ui' % bundle,
               install_path = '${LV2DIR}/%s' % bundle,
-              lib          = ui_libs + ['m', 'pthread'],
+              lib          = ui_libs + ['m', 'pthread', 'cairo' ],
               framework    = ui_framework,
               use          = 'LV2_1_4_1')
     obj.env['%sshlib_PATTERN' % ui_lang] = module_pat

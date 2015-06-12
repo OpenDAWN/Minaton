@@ -42,9 +42,7 @@ onDisplay(PuglView* view)
 	cairo_set_source_rgb (cr, 0.1,0,0);
 	cairo_paint (cr);
 
-	displayDeliriumUIWidget(cr, 0);
-	displayDeliriumUIWidget(cr, 1);
-	displayDeliriumUIWidget(cr, 2);
+	displayAllDeliriumUIWidgets(cr);
 }
 
 static void
@@ -60,7 +58,7 @@ onKeyboard(PuglView* view, bool press, uint32_t key)
 static void
 onMotion(PuglView* view, int x, int y)
 {
-	fprintf(stderr, "Motion: %d,%d\n", x, y);
+	// fprintf(stderr, "Motion: %d,%d\n", x, y);
 	isMouseOverDeliriumUIWidget(x, y);
 }
 
@@ -105,7 +103,7 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	self->exit       = false;
 
 	
-	setDeliriumUIGridSize(self->width, self->height, 8, 8);
+	setDeliriumUIGridSize(self->width, self->height, 10, 10);
 
 	// Get parent window and resize API from features
 	PuglNativeWindow parent = 0;
@@ -125,9 +123,18 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 		return NULL;
 	}
 
-	 addDeliriumUIWidget(0,0,2,1,"Test");
-	 addDeliriumUIWidget(0,1,2,1,"Frog");
-	 addDeliriumUIWidget(0,2,4,1,"Abracadabra");
+	 addDeliriumUIWidget(0,0,3,1,"Test");
+	 addDeliriumUIWidget(0,1,3,1,"Frog");
+	 addDeliriumUIWidget(0,2,3,1,"Abracadabra");
+
+	 addDeliriumUIWidget(4,0,1,1,"A");
+	 addDeliriumUIWidget(5,0,1,1,"B");
+	 addDeliriumUIWidget(6,0,1,1,"C");
+	 addDeliriumUIWidget(7,0,1,1,"D");
+	 addDeliriumUIWidget(8,0,1,1,"E");
+
+	 addDeliriumUIWidget(4,2,4,4,"Overlap 1");
+	 addDeliriumUIWidget(6,5,4,4,"Overlap 2");
 
 	// Set up pugl window
 
