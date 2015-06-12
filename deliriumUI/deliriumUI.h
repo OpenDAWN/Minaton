@@ -27,12 +27,13 @@ typedef struct {
 } Button;
 
 typedef struct {
-	int type;
-	int         x;
-	int         y;
-	int         w;
-	int         h;
-	bool        pressed;
+	int	type;
+	int	x;
+	int	y;
+	int	w;
+	int	h;
+	bool	pressed;
+	bool	hover;
 	const char* label;
 } deliriumUIWidget;
 
@@ -41,6 +42,9 @@ void setDeliriumUIGridSize(int, int, int, int);
 void setDeliriumUICurrentWindowSize(int, int);
 int addDeliriumUIWidget(int, int, int, int, char*);
 void displayDeliriumUIWidget(cairo_t*, int);
+void setDeliriumUIWidgetHover(int, bool);
+void isMouseOverDeliriumUIWidget(int, int);
+void hasMouseClickedDeliriumUIWidget(int, int);
 
 static void roundedBox(cairo_t* cr, double x, double y, double w, double h)
 {

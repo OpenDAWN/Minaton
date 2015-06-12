@@ -61,6 +61,7 @@ static void
 onMotion(PuglView* view, int x, int y)
 {
 	fprintf(stderr, "Motion: %d,%d\n", x, y);
+	isMouseOverDeliriumUIWidget(x, y);
 }
 
 static void
@@ -68,6 +69,12 @@ onMouse(PuglView* view, int button, bool press, int x, int y)
 {
 	fprintf(stderr, "Mouse %d %s at %d,%d\n",
 	        button, press ? "down" : "up", x, y);
+
+	if (press == true)
+		hasMouseClickedDeliriumUIWidget(x, y);
+		else
+					hasMouseClickedDeliriumUIWidget(-1,-1);
+
 }
 
 static void
@@ -126,7 +133,7 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 
 	self->view = puglInit(NULL, NULL);
 	puglInitWindowParent(self->view, parent);
-	puglInitWindowSize(self->view, self->width, self->height);
+	puglInitWindowSize(self->view, 1280,800);
 	puglInitResizable(self->view, true);
 	puglInitContextType(self->view, PUGL_CAIRO);
 	puglIgnoreKeyRepeat(self->view, false);

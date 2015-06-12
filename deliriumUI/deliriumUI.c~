@@ -18,6 +18,7 @@ int addDeliriumUIWidget(int _x, int _y, int _w, int _h, char* _label)
 	deliriumUIWidgets[numberOfUIWidgets-1].w = _w;
 	deliriumUIWidgets[numberOfUIWidgets-1].h = _h;
 	deliriumUIWidgets[numberOfUIWidgets-1].pressed = false;
+	deliriumUIWidgets[numberOfUIWidgets-1].hover = false;
 	deliriumUIWidgets[numberOfUIWidgets-1].label = _label;
 
 	numberOfUIWidgets++;
@@ -57,17 +58,19 @@ void setDeliriumUICurrentWindowSize(int _w, int _h)
 void displayDeliriumUIWidget(cairo_t* cr, int widgetNumber)
 {
 
-
 	int x = deliriumUIWidgets[widgetNumber].x * deliriumWindow.widgetWidth;
 	int y = deliriumUIWidgets[widgetNumber].y * deliriumWindow.widgetHeight;
 	int w = deliriumUIWidgets[widgetNumber].w * deliriumWindow.widgetWidth;
 	int h = deliriumUIWidgets[widgetNumber].h * deliriumWindow.widgetHeight;
 
+	x += deliriumUIWidgets[widgetNumber].pressed * 1;
+	y += deliriumUIWidgets[widgetNumber].pressed * 1;
+
 	// Draw base
-	if (deliriumUIWidgets[widgetNumber].pressed) {
-		cairo_set_source_rgba(cr, 0.3, 0.3, 0.3, 1);
-	} else {
+	if (deliriumUIWidgets[widgetNumber].hover) {
 		cairo_set_source_rgba(cr, 0.5, 0.5, 0.5, 1);
+	} else {
+		cairo_set_source_rgba(cr, 0.3, 0.3, 0.3, 1);
 	}
 	roundedBox(cr, x, y, w, h);
 	cairo_fill_preserve(cr);
@@ -88,6 +91,59 @@ void displayDeliriumUIWidget(cairo_t* cr, int widgetNumber)
 	cairo_show_text(cr, deliriumUIWidgets[widgetNumber].label);
 }
 
+//------------------------------------------------------------------
+// Set widget hover flag
+
+void setDeliriumUIWidgetHover(int widgetNumber, bool _hover)
+{
+	deliriumUIWidgets[widgetNumber].hover = _hover;
+}
+
+//------------------------------------------------------------------
+// check if mouse is hovering over widget
+void isMouseOverDeliriumUIWidget(int _x, int _y)
+{
+	for (int widgetNumber=0; widgetNumber<numberOfUIWidgets; ++widgetNumber)
+	{
+		int x = deliriumUIWidgets[widgetNumber].x * deliriumWindow.widgetWidth;
+		int y = deliriumUIWidgets[widgetNumber].y * deliriumWindow.widgetHeight;
+		int w = deliriumUIWidgets[widgetNumber].w * deliriumWindow.widgetWidth;
+		int h = deliriumUIWidgets[widgetNumber].h * deliriumWindow.widgetHeight;
+		
+		if (_x>=x && _y>=y && _x<=x+w && _y<=y+h) 
+		{
+			deliriumUIWidgets[widgetNumber].hover = true;
+		}
+		else
+		{
+			deliriumUIWidgets[widgetNumber].hover = false;
+		}
+	}
+}
+
+
+//------------------------------------------------------------------
+// check if widget has been clicked by mouse button
+
+void hasMouseClickedDeliriumUIWidget(int _x, int _y)
+{
+	for (int widgetNumber=0; widgetNumber<numberOfUIWidgets; ++widgetNumber)
+	{
+		int x = deliriumUIWidgets[widgetNumber].x * deliriumWindow.widgetWidth;
+		int y = deliriumUIWidgets[widgetNumber].y * deliriumWindow.widgetHeight;
+		int w = deliriumUIWidgets[widgetNumber].w * deliriumWindow.widgetWidth;
+		int h = deliriumUIWidgets[widgetNumber].h * deliriumWindow.widgetHeight;
+		
+		if (_x>=x && _y>=y && _x<=x+w && _y<=y+h) 
+		{
+			deliriumUIWidgets[widgetNumber].pressed = true;
+		}
+		else
+		{
+			deliriumUIWidgets[widgetNumber].pressed = false;
+		}
+	}
+}
 
 //------------------------------------------------------------------
 // Initialise widget list
