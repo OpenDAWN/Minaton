@@ -3,28 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <cairo/cairo.h>
-
-typedef struct {
-	int originalWidth;
-	int originalHeight;
-	int currentWidth;
-	int currentHeight;
-	int gridX;
-	int gridY;
-	int widgetWidth;
-	int widgetHeight;
-} delWin;
-
-delWin deliriumWindow;
-
-typedef struct {
-	int         x;
-	int         y;
-	int         w;
-	int         h;
-	bool        pressed;
-	const char* label;
-} Button;
+#include "pugl/pugl.h"
 
 typedef struct {
 	int	type;
@@ -37,17 +16,38 @@ typedef struct {
 	const char* label;
 } deliriumUIWidget;
 
-void cleanUpDeliriumUI();
-void setDeliriumUIGridSize(int, int, int, int);
-void setDeliriumUICurrentWindowSize(int, int);
-int addDeliriumUIWidget(int, int, int, int, char*);
-void displayDeliriumUIWidget(cairo_t*, int);
-void displayAllDeliriumUIWidgets(cairo_t* cr);
-void setDeliriumUIWidgetHover(int, bool);
-void isMouseOverDeliriumUIWidget(int, int);
-void hasMouseClickedDeliriumUIWidget(int, int);
+typedef struct {
+	int originalWidth;
+	int originalHeight;
+	int currentWidth;
+	int currentHeight;
+	int gridX;
+	int gridY;
+	int widgetWidth;
+	int widgetHeight;
+	deliriumUIWidget* deliriumUIWidgets;
+	int numberOfUIWidgets;
+} deliriumUI;
+
+typedef struct {
+	int         x;
+	int         y;
+	int         w;
+	int         h;
+	bool        pressed;
+	const char* label;
+} Button;
 
 
+void cleanUpDeliriumUI(deliriumUI*);
+void setDeliriumUIGridSize(deliriumUI, int, int, int, int);
+void setDeliriumUICurrentWindowSize(deliriumUI, int, int);
+int addDeliriumUIWidget(deliriumUI*, int, int, int, int, char*);
+void displayDeliriumUIWidget(deliriumUI*, cairo_t*, int);
+void displayAllDeliriumUIWidgets(deliriumUI*, cairo_t* cr);
+void setDeliriumUIWidgetHover(deliriumUI*, int, bool);
+void isMouseOverDeliriumUIWidget(deliriumUI*, int, int);
+void hasMouseClickedDeliriumUIWidget(deliriumUI*, int, int);
 
 
 

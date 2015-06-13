@@ -10,7 +10,6 @@
 #include <cairo/cairo.h>
 
 #include "lv2/lv2plug.in/ns/extensions/ui/ui.h"
-#include "pugl/pugl.h"
 #include "deliriumUI/deliriumUI.h"
 
 #define minaton_UI_URI "http://nickbailey.co.nr/plugins/minaton#ui"
@@ -21,6 +20,7 @@ typedef struct {
 	LV2UI_Controller     controller;
 	int                  width;
 	int                  height;
+	deliriumUI	     deliriumUI_window;
 	float                brightness;
 	bool                 exit;
 } minatonUI;
@@ -28,21 +28,23 @@ typedef struct {
 static void
 onReshape(PuglView* view, int width, int height)
 {
-	setDeliriumUICurrentWindowSize(width, height);
+	minatonUI* self = (minatonUI*)puglGetHandle(view);
+
+	setDeliriumUICurrentWindowSize(&self->deliriumUI_window, width, height);
 }
 
 
 static void
 onDisplay(PuglView* view)
 {
-
+	minatonUI* self = (minatonUI*)puglGetHandle(view);
 	cairo_t* cr = puglGetContext(view);
 
 	/* Set surface to opaque color (r, g, b) */
 	cairo_set_source_rgb (cr, 0.1,0,0);
 	cairo_paint (cr);
 
-	displayAllDeliriumUIWidgets(cr);
+	displayAllDeliriumUIWidgets(&self->deliriumUI_window,cr);
 }
 
 static void
@@ -58,26 +60,32 @@ onKeyboard(PuglView* view, bool press, uint32_t key)
 static void
 onMotion(PuglView* view, int x, int y)
 {
+	minatonUI* self = (minatonUI*)puglGetHandle(view);
+
 	// fprintf(stderr, "Motion: %d,%d\n", x, y);
-	isMouseOverDeliriumUIWidget(x, y);
+	isMouseOverDeliriumUIWidget(&self->deliriumUI_window, x, y);
 }
 
 static void
 onMouse(PuglView* view, int button, bool press, int x, int y)
 {
+	minatonUI* self = (minatonUI*)puglGetHandle(view);
+
 	fprintf(stderr, "Mouse %d %s at %d,%d\n",
 	        button, press ? "down" : "up", x, y);
 
 	if (press == true && button == 1)
-		hasMouseClickedDeliriumUIWidget(x, y);
+		hasMouseClickedDeliriumUIWidget(&self->deliriumUI_window, x, y);
 		else
-					hasMouseClickedDeliriumUIWidget(-1,-1);
+					hasMouseClickedDeliriumUIWidget(&self->deliriumUI_window, -1,-1);
 
 }
 
 static void
 onScroll(PuglView* view, int x, int y, float dx, float dy)
 {
+	minatonUI* self = (minatonUI*)puglGetHandle(view);
+
 	fprintf(stderr, "Scroll %f %f\n", dx, dy);
 }
 
@@ -100,10 +108,12 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	self->controller = controller;
 	self->width      = 480;
 	self->height     = 256;
-	self->exit       = false;
+	self->exit       = false;	
 
-	
-	setDeliriumUIGridSize(self->width, self->height, 10, 10);
+	self->deliriumUI_window.deliriumUIWidgets = NULL;
+	self->deliriumUI_window.numberOfUIWidgets = 1;
+
+	setDeliriumUIGridSize(&self->deliriumUI_window, self->width, self->height, 10, 10);
 
 	// Get parent window and resize API from features
 	PuglNativeWindow parent = 0;
@@ -123,18 +133,18 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 		return NULL;
 	}
 
-	 addDeliriumUIWidget(0,0,3,1,"Test");
-	 addDeliriumUIWidget(0,1,3,1,"Frog");
-	 addDeliriumUIWidget(0,2,3,1,"Abracadabra");
+	addDeliriumUIWidget(&self->deliriumUI_window, 0,0,3,1,"Test");
+	addDeliriumUIWidget(&self->deliriumUI_window, 0,1,3,1,"Frog");
+	addDeliriumUIWidget(&self->deliriumUI_window, 0,2,3,1,"Abracadabra");
 
-	 addDeliriumUIWidget(4,0,1,1,"A");
-	 addDeliriumUIWidget(5,0,1,1,"B");
-	 addDeliriumUIWidget(6,0,1,1,"C");
-	 addDeliriumUIWidget(7,0,1,1,"D");
-	 addDeliriumUIWidget(8,0,1,1,"E");
+	addDeliriumUIWidget(&self->deliriumUI_window, 4,0,1,1,"A");
+	addDeliriumUIWidget(&self->deliriumUI_window, 5,0,1,1,"B");
+	addDeliriumUIWidget(&self->deliriumUI_window, 6,0,1,1,"C");
+	addDeliriumUIWidget(&self->deliriumUI_window, 7,0,1,1,"D");
+	addDeliriumUIWidget(&self->deliriumUI_window, 8,0,1,1,"E");
 
-	 addDeliriumUIWidget(4,2,4,4,"Overlap 1");
-	 addDeliriumUIWidget(6,5,4,4,"Overlap 2");
+	addDeliriumUIWidget(&self->deliriumUI_window, 4,2,4,4,"Overlap 1");
+	addDeliriumUIWidget(&self->deliriumUI_window, 6,5,4,4,"Overlap 2");
 
 	// Set up pugl window
 
