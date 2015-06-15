@@ -40,10 +40,6 @@ onDisplay(PuglView* view)
 	minatonUI* self = (minatonUI*)puglGetHandle(view);
 	cairo_t* cr = puglGetContext(view);
 
-	/* Set surface to opaque color (r, g, b) */
-	cairo_set_source_rgb (cr, 0.1,0,0);
-	cairo_paint (cr);
-
 	displayAllDeliriumUIWidgets(&self->deliriumUI_window,cr);
 }
 
@@ -113,7 +109,7 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	self->deliriumUI_window.deliriumUIWidgets = NULL;
 	self->deliriumUI_window.numberOfUIWidgets = 1;
 
-	setDeliriumUIGridSize(&self->deliriumUI_window, self->width, self->height, 10, 10);
+	setDeliriumUIGridSize(&self->deliriumUI_window, self->width, self->height, 14, 14);
 
 	// Get parent window and resize API from features
 	PuglNativeWindow parent = 0;
@@ -133,18 +129,23 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 		return NULL;
 	}
 
-	addDeliriumUIWidget(&self->deliriumUI_window, 0,0,3,1,"Test");
-	addDeliriumUIWidget(&self->deliriumUI_window, 0,1,3,1,"Frog");
-	addDeliriumUIWidget(&self->deliriumUI_window, 0,2,3,1,"Abracadabra");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 0,0,3,1,"Test");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 0,1,3,1,"Frog");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 0,2,3,1,"Abracadabra");
 
-	addDeliriumUIWidget(&self->deliriumUI_window, 4,0,1,1,"A");
-	addDeliriumUIWidget(&self->deliriumUI_window, 5,0,1,1,"B");
-	addDeliriumUIWidget(&self->deliriumUI_window, 6,0,1,1,"C");
-	addDeliriumUIWidget(&self->deliriumUI_window, 7,0,1,1,"D");
-	addDeliriumUIWidget(&self->deliriumUI_window, 8,0,1,1,"E");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 4,0,1,1,"A");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 5,0,1,1,"B");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 6,0,1,1,"C");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 7,0,1,1,"D");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 8,0,1,1,"E");
 
-	addDeliriumUIWidget(&self->deliriumUI_window, 4,2,4,4,"Overlap 1");
-	addDeliriumUIWidget(&self->deliriumUI_window, 6,5,4,4,"Overlap 2");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 4,2,4,4,"Overlap 1");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 6,5,2,4,"Overlap 2");
+
+	addDeliriumUIKnobWidget(&self->deliriumUI_window, 0,10,2,4,"Attack");
+	addDeliriumUIKnobWidget(&self->deliriumUI_window, 2,10,2,4,"Decay");
+	addDeliriumUIKnobWidget(&self->deliriumUI_window, 4,10,2,4,"Sustain");
+	addDeliriumUIKnobWidget(&self->deliriumUI_window, 6,10,2,4,"Release");
 
 	// Set up pugl window
 
