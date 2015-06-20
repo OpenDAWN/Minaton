@@ -8,7 +8,8 @@
 typedef enum 
 {
 	deliriumUI_Button,
-	deliriumUI_Knob
+	deliriumUI_Knob,
+	deliriumUI_MicroKnob
 } deliriumUI_WidgetType;
 
 typedef struct {
@@ -42,6 +43,7 @@ void setDeliriumUIGridSize(deliriumUI*, int, int, int, int);
 void setDeliriumUICurrentWindowSize(deliriumUI*, int, int);
 int addDeliriumUIButtonWidget(deliriumUI*, int, int, int, int, char*);
 int addDeliriumUIKnobWidget(deliriumUI*, int, int, int, int, char*);
+int addDeliriumUIMicroKnobWidget(deliriumUI*, int, int, int, int, char*);
 void displayDeliriumUIWidget(deliriumUI*, cairo_t*, int);
 void displayAllDeliriumUIWidgets(deliriumUI*, cairo_t* cr);
 void setDeliriumUIWidgetHover(deliriumUI*, int, bool);
@@ -73,5 +75,6 @@ static void roundedBox(cairo_t* cr, double x, double y, double w, double h)
 
 void displayDiliriumUIButton(deliriumUI*, cairo_t*, int);
 void displayDiliriumUIKnob(deliriumUI*, cairo_t*, int);
+void displayDiliriumUIMicroKnob(deliriumUI*, cairo_t*, int);
 
 

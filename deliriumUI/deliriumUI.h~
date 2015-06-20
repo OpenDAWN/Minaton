@@ -7,8 +7,9 @@
 
 typedef enum 
 {
-	deliriumUI_Button = 0,
-	deliriumUI_knob = 1
+	deliriumUI_Button,
+	deliriumUI_Knob,
+	deliriumUI_MicroKnob
 } deliriumUI_WidgetType;
 
 typedef struct {
@@ -73,5 +74,6 @@ static void roundedBox(cairo_t* cr, double x, double y, double w, double h)
 
 void displayDiliriumUIButton(deliriumUI*, cairo_t*, int);
 void displayDiliriumUIKnob(deliriumUI*, cairo_t*, int);
+void displayDiliriumUIMicroKnob(deliriumUI*, cairo_t*, int);
 
 

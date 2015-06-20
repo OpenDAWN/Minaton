@@ -1,0 +1,10 @@
+
+#ifdef DELIRIUMUI
+#include "deliriumUI.h"
+
+#define DELIRIUMUI
+#endif
+
+
+
+void widgetDisplayButton(deliriumUI*, cairo_t*, int );

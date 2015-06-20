@@ -109,7 +109,7 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	self->deliriumUI_window.deliriumUIWidgets = NULL;
 	self->deliriumUI_window.numberOfUIWidgets = 1;
 
-	setDeliriumUIGridSize(&self->deliriumUI_window, self->width, self->height, 14, 14);
+	setDeliriumUIGridSize(&self->deliriumUI_window, self->width, self->height, 12, 12);
 
 	// Get parent window and resize API from features
 	PuglNativeWindow parent = 0;
@@ -139,13 +139,15 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	addDeliriumUIButtonWidget(&self->deliriumUI_window, 7,0,1,1,"D");
 	addDeliriumUIButtonWidget(&self->deliriumUI_window, 8,0,1,1,"E");
 
-	addDeliriumUIButtonWidget(&self->deliriumUI_window, 4,2,4,4,"Overlap 1");
-	addDeliriumUIKnobWidget(&self->deliriumUI_window, 6,5,2,4,"Overlap 2");
+	addDeliriumUIMicroKnobWidget(&self->deliriumUI_window, 0,10,1,2,"ATTACK");
+	addDeliriumUIMicroKnobWidget(&self->deliriumUI_window, 1,10,1,2,"DECAY");
+	addDeliriumUIMicroKnobWidget(&self->deliriumUI_window, 2,10,1,2,"SUSTAIN");
+	addDeliriumUIMicroKnobWidget(&self->deliriumUI_window, 3,10,1,2,"RELEASE");
 
-	addDeliriumUIKnobWidget(&self->deliriumUI_window, 0,10,2,4,"Attack");
-	addDeliriumUIKnobWidget(&self->deliriumUI_window, 2,10,2,4,"Decay");
-	addDeliriumUIKnobWidget(&self->deliriumUI_window, 4,10,2,4,"Sustain");
-	addDeliriumUIKnobWidget(&self->deliriumUI_window, 6,10,2,4,"Release");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 4,2,4,4,"Overlap 1");
+	addDeliriumUIButtonWidget(&self->deliriumUI_window, 6,5,2,4,"Overlap 2");
+
+
 
 	// Set up pugl window
 

@@ -66,6 +66,38 @@ int addDeliriumUIKnobWidget(deliriumUI* deliriumUI_window, int _x, int _y, int _
 } 
 
 //------------------------------------------------------------------
+// Add micro knob widget
+
+int addDeliriumUIMicroKnobWidget(deliriumUI* deliriumUI_window, int _x, int _y, int _w, int _h, char* _label)
+{
+	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
+	int numberOfUIWidgets = deliriumUI_window->numberOfUIWidgets;
+
+	deliriumUIWidgets = realloc( deliriumUIWidgets, sizeof(deliriumUIWidget) * numberOfUIWidgets );
+
+	deliriumUI_window->deliriumUIWidgets = deliriumUIWidgets;
+
+	deliriumUIWidgets[numberOfUIWidgets-1].type = deliriumUI_MicroKnob;
+	deliriumUIWidgets[numberOfUIWidgets-1].x = _x;
+	deliriumUIWidgets[numberOfUIWidgets-1].x = _x;
+	deliriumUIWidgets[numberOfUIWidgets-1].y = _y;
+	deliriumUIWidgets[numberOfUIWidgets-1].w = _w;
+	deliriumUIWidgets[numberOfUIWidgets-1].h = _h;
+	deliriumUIWidgets[numberOfUIWidgets-1].pressed = false;
+	deliriumUIWidgets[numberOfUIWidgets-1].hover = false;
+	deliriumUIWidgets[numberOfUIWidgets-1].label = _label;
+	deliriumUIWidgets[numberOfUIWidgets-1].value = 0;
+
+	numberOfUIWidgets++;
+
+	deliriumUI_window->numberOfUIWidgets = numberOfUIWidgets;
+
+	printf ("\nNumber of widgets now at %d\n", deliriumUI_window->numberOfUIWidgets);
+
+	return numberOfUIWidgets-1; // return handle number
+} 
+
+//------------------------------------------------------------------
 // set packing grid size
 
 void setDeliriumUIGridSize(deliriumUI* deliriumUI_window, int _w, int _h, int _x, int _y)
@@ -107,6 +139,10 @@ void displayDeliriumUIWidget(deliriumUI* deliriumUI_window, cairo_t* cr, int wid
 
 		case deliriumUI_Knob:
 			displayDiliriumUIKnob(deliriumUI_window, cr, widgetNumber);
+			break;
+
+		case deliriumUI_MicroKnob:
+			displayDiliriumUIMicroKnob(deliriumUI_window, cr, widgetNumber);
 			break;
 	}
 }

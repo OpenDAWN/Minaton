@@ -108,6 +108,10 @@ void displayDeliriumUIWidget(deliriumUI* deliriumUI_window, cairo_t* cr, int wid
 		case deliriumUI_Knob:
 			displayDiliriumUIKnob(deliriumUI_window, cr, widgetNumber);
 			break;
+
+		case deliriumUI_MicroKnob:
+			displayDiliriumUIMicroKnob(deliriumUI_window, cr, widgetNumber);
+			break;
 	}
 }
 
