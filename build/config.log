@@ -1,36 +1,18 @@
-# project minaton.lv2 (0.2.0) configured on Mon Jun 15 22:57:19 2015 by
+# project minaton.lv2 (0.2.0) configured on Sun Jun 28 11:50:22 2015 by
 # waf 1.8.5 (abi 98, python 20706f0 on linux2)
 # using ./waf configure
 #
 ----------------------------------------
 Setting top to
-/home/mouldy-marmoset/Nicks/Audio programming/Minaton
+/home/cypher-thor/nicks/audio-programming/Minaton
 ----------------------------------------
 Setting out to
-/home/mouldy-marmoset/Nicks/Audio programming/Minaton/build
+/home/cypher-thor/nicks/audio-programming/Minaton/build
 ----------------------------------------
 Checking for 'gcc' (C compiler)
 find program=['gcc', 'cc'] paths=['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/games', '/usr/local/games'] var='CC' -> ['/usr/bin/gcc']
 find program=['ar'] paths=['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/games', '/usr/local/games'] var='AR' -> ['/usr/bin/ar']
 /usr/bin/gcc
-----------------------------------------
-Checking for header GL/glu.h
-==>
-#include <GL/glu.h>
-
-int main(int argc, char **argv) {
-	(void)argc; (void)argv;
-	return 0;
-}
-
-<==
-[1/2] Compiling [32mbuild/.conf_check_f2ec0886453c8c6bd494566864c6d3b4/test.c[0m
-
-['/usr/bin/gcc', '-I/home/mouldy-marmoset/Nicks/Audio programming/Minaton', '-DNDEBUG', '-fshow-column', '-std=c99', '-I/home/mouldy-marmoset/Nicks/Audio programming/Minaton/build/.conf_check_f2ec0886453c8c6bd494566864c6d3b4/testbuild', '../test.c', '-c', '-o', '/home/mouldy-marmoset/Nicks/Audio programming/Minaton/build/.conf_check_f2ec0886453c8c6bd494566864c6d3b4/testbuild/test.c.1.o']
-[2/2] Linking [33mbuild/.conf_check_f2ec0886453c8c6bd494566864c6d3b4/testbuild/testprog[0m
-
-['/usr/bin/gcc', 'test.c.1.o', '-o', '/home/mouldy-marmoset/Nicks/Audio programming/Minaton/build/.conf_check_f2ec0886453c8c6bd494566864c6d3b4/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
-yes
 ----------------------------------------
 Checking for program 'pkg-config'
 /usr/bin/pkg-config

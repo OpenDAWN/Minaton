@@ -28,8 +28,6 @@ def configure(conf):
     autowaf.set_c99_mode(conf)
     autowaf.display_header('minaton Configuration')
 
-    conf.check_cc(header_name='GL/glu.h')
-
     autowaf.check_pkg(conf, 'lv2', atleast_version='1.4.1',
                       uselib_store='LV2_1_4_1')
 
@@ -50,16 +48,16 @@ def build(bld):
     if bld.env.DEST_OS == 'win32':
         pugl_impl = 'pugl/pugl_win.cpp'
         ui_type   = 'http://lv2plug.in/ns/extensions/ui#WindowsUI'
-        ui_libs   = ['opengl32', 'glu32', 'gdi32', 'user32']
+        ui_libs   = ['gdi32', 'user32']
         ui_lang   = 'cxx'
     elif bld.env.DEST_OS == 'darwin':
         pugl_impl    = 'pugl/pugl_osx.m'
         ui_type      = 'http://lv2plug.in/ns/extensions/ui#CocoaUI'
-        ui_framework = ['Cocoa', 'OpenGL']
+        ui_framework = ['Cocoa']
     else:
         pugl_impl = 'pugl/pugl_x11.c'
         ui_type   = 'http://lv2plug.in/ns/extensions/ui#X11UI'
-        ui_libs   = ['X11', 'GL', 'GLU']
+        ui_libs   = ['X11']
 
     # Build Turtle files by substitution
     for i in ['manifest.ttl', 'minaton.ttl']:
@@ -82,7 +80,7 @@ def build(bld):
 
     # Build UI library
     obj = bld(features     = '%s %sshlib' % (ui_lang, ui_lang),
-              source       = ['minaton_ui.c', "deliriumUI/deliriumUI.c", "deliriumUI/button.c", "deliriumUI/knob.c", pugl_impl],
+              source       = ['minaton_ui.c', "deliriumUI/deliriumUI.c", "deliriumUI/button.c", "deliriumUI/knob.c", "deliriumUI/microknob.c", pugl_impl],
               name         = 'minaton_ui',
               target       = '%s/minaton_ui' % bundle,
               install_path = '${LV2DIR}/%s' % bundle,

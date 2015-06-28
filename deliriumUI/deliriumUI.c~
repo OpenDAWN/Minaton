@@ -2,9 +2,9 @@
 #include "deliriumUI.h"
 
 //------------------------------------------------------------------
-// Add button widget
+// Add Widget
 
-int addDeliriumUIButtonWidget(deliriumUI* deliriumUI_window, int _x, int _y, int _w, int _h, char* _label)
+int addDeliriumUIWidget(deliriumUI* deliriumUI_window, deliriumUI_WidgetType widgetType, int _x, int _y, int _w, int _h, char* _label)
 {
 	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
 	int numberOfUIWidgets = deliriumUI_window->numberOfUIWidgets;
@@ -13,7 +13,7 @@ int addDeliriumUIButtonWidget(deliriumUI* deliriumUI_window, int _x, int _y, int
 
 	deliriumUI_window->deliriumUIWidgets = deliriumUIWidgets;
 
-	deliriumUIWidgets[numberOfUIWidgets-1].type = deliriumUI_Button;
+	deliriumUIWidgets[numberOfUIWidgets-1].type = widgetType;
 	deliriumUIWidgets[numberOfUIWidgets-1].x = _x;
 	deliriumUIWidgets[numberOfUIWidgets-1].x = _x;
 	deliriumUIWidgets[numberOfUIWidgets-1].y = _y;
@@ -28,42 +28,10 @@ int addDeliriumUIButtonWidget(deliriumUI* deliriumUI_window, int _x, int _y, int
 
 	deliriumUI_window->numberOfUIWidgets = numberOfUIWidgets;
 
-	printf ("\nNumber of widgets now at %d\n", deliriumUI_window->numberOfUIWidgets);
-
 	return numberOfUIWidgets-1; // return handle number
-} 
+}
 
-//------------------------------------------------------------------
-// Add knob widget
 
-int addDeliriumUIKnobWidget(deliriumUI* deliriumUI_window, int _x, int _y, int _w, int _h, char* _label)
-{
-	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
-	int numberOfUIWidgets = deliriumUI_window->numberOfUIWidgets;
-
-	deliriumUIWidgets = realloc( deliriumUIWidgets, sizeof(deliriumUIWidget) * numberOfUIWidgets );
-
-	deliriumUI_window->deliriumUIWidgets = deliriumUIWidgets;
-
-	deliriumUIWidgets[numberOfUIWidgets-1].type = deliriumUI_Knob;
-	deliriumUIWidgets[numberOfUIWidgets-1].x = _x;
-	deliriumUIWidgets[numberOfUIWidgets-1].x = _x;
-	deliriumUIWidgets[numberOfUIWidgets-1].y = _y;
-	deliriumUIWidgets[numberOfUIWidgets-1].w = _w;
-	deliriumUIWidgets[numberOfUIWidgets-1].h = _h;
-	deliriumUIWidgets[numberOfUIWidgets-1].pressed = false;
-	deliriumUIWidgets[numberOfUIWidgets-1].hover = false;
-	deliriumUIWidgets[numberOfUIWidgets-1].label = _label;
-	deliriumUIWidgets[numberOfUIWidgets-1].value = 0;
-
-	numberOfUIWidgets++;
-
-	deliriumUI_window->numberOfUIWidgets = numberOfUIWidgets;
-
-	printf ("\nNumber of widgets now at %d\n", deliriumUI_window->numberOfUIWidgets);
-
-	return numberOfUIWidgets-1; // return handle number
-} 
 
 //------------------------------------------------------------------
 // set packing grid size

@@ -7,21 +7,20 @@ CCLNK_TGT_F = ['-o']
 CC_NAME = 'gcc'
 CC_SRC_F = []
 CC_TGT_F = ['-c', '-o']
-CC_VERSION = ('4', '8', '2')
-CFLAGS = ['-I/home/mouldy-marmoset/Nicks/Audio programming/Minaton', '-DNDEBUG', '-fshow-column', '-std=c99']
+CC_VERSION = ('4', '8', '4')
+CFLAGS = ['-I/home/cypher-thor/nicks/audio-programming/Minaton', '-DNDEBUG', '-fshow-column', '-std=c99']
 CFLAGS_MACBUNDLE = ['-fPIC']
 CFLAGS_cshlib = ['-fPIC']
 CHECKED_LV2_1_4_1 = 2
 COMPILER_CC = 'gcc'
 CPPPATH_ST = '-I%s'
-CXXFLAGS = ['-I/home/mouldy-marmoset/Nicks/Audio programming/Minaton', '-DNDEBUG', '-fshow-column']
+CXXFLAGS = ['-I/home/cypher-thor/nicks/audio-programming/Minaton', '-DNDEBUG', '-fshow-column']
 DATADIR = '/usr/local/share'
 DEBUG = False
-DEFINES = ['HAVE_GL_GLU_H=1']
 DEFINES_LV2_1_4_1 = ['HAVE_LV2_1_4_1=1']
 DEFINES_ST = '-D%s'
 DEST_BINFMT = 'elf'
-DEST_CPU = 'x86'
+DEST_CPU = 'x86_64'
 DEST_OS = 'linux'
 DOCDIR = '/usr/local/share/doc'
 DOCS = False
@@ -51,5 +50,4 @@ VERSION_lv2 = '1.4.1'
 cprogram_PATTERN = '%s'
 cshlib_PATTERN = 'lib%s.so'
 cstlib_PATTERN = 'lib%s.a'
-define_key = ['HAVE_GL_GLU_H']
 macbundle_PATTERN = '%s.bundle'
