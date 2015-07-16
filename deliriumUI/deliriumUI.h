@@ -10,7 +10,8 @@ typedef enum
 	deliriumUI_Button,
 	deliriumUI_Knob,
 	deliriumUI_MicroKnob,
-	deliriumUI_Fader
+	deliriumUI_Fader, 
+	deliriumUI_Switch
 } deliriumUI_WidgetType;
 
 typedef struct {
@@ -21,8 +22,11 @@ typedef struct {
 	int	h;
 	bool	pressed;
 	bool	hover;
+	bool	toggleMode;
 	const char* label;
-	float value;
+	float	value;
+	float	min;
+	float	max;
 } deliriumUIWidget;
 
 typedef struct {
@@ -76,6 +80,7 @@ void displayDiliriumUIButton(deliriumUI*, cairo_t*, int);
 void displayDiliriumUIKnob(deliriumUI*, cairo_t*, int);
 void displayDiliriumUIMicroKnob(deliriumUI*, cairo_t*, int);
 void displayDiliriumUIFader(deliriumUI*, cairo_t*, int);
+void displayDiliriumUISwitch(deliriumUI*, cairo_t*, int);
 
 
 

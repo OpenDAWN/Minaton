@@ -65,6 +65,8 @@ onMotion(PuglView* view, int x, int y)
 static void
 onMouse(PuglView* view, int button, bool press, int x, int y)
 {
+	if (press == true && button == 0) return;
+
 	minatonUI* self = (minatonUI*)puglGetHandle(view);
 
 	fprintf(stderr, "Mouse %d %s at %d,%d\n",
@@ -145,7 +147,7 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_MicroKnob, 3,10,1,2,"RELEASE");
 
 	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Button, 4,2,4,4,"Overlap 1");
-	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Knob, 6,5,2,4,"Overlap 2");
+	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Switch, 6,5,2,4,"Overlap 2");
 
 	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Fader, 8,5,1,4,"Fader");
 

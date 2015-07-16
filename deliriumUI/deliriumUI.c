@@ -24,6 +24,9 @@ int addDeliriumUIWidget(deliriumUI* deliriumUI_window, deliriumUI_WidgetType wid
 	deliriumUIWidgets[numberOfUIWidgets-1].label = _label;
 	deliriumUIWidgets[numberOfUIWidgets-1].value = 0;
 
+	if (widgetType != deliriumUI_Switch) deliriumUIWidgets[numberOfUIWidgets-1].toggleMode = false;
+		else deliriumUIWidgets[numberOfUIWidgets-1].toggleMode = true;
+
 	numberOfUIWidgets++;
 
 	deliriumUI_window->numberOfUIWidgets = numberOfUIWidgets;
@@ -83,6 +86,10 @@ void displayDeliriumUIWidget(deliriumUI* deliriumUI_window, cairo_t* cr, int wid
 
 		case deliriumUI_Fader:
 			displayDiliriumUIFader(deliriumUI_window, cr, widgetNumber);
+			break;
+
+		case deliriumUI_Switch:
+			displayDiliriumUISwitch(deliriumUI_window, cr, widgetNumber);
 			break;
 	}
 }
@@ -163,14 +170,25 @@ void hasMouseClickedDeliriumUIWidget(deliriumUI* deliriumUI_window, int _x, int 
 		w -= 2;
 		h -= 2;
 		
-		if (_x>=x && _y>=y && _x<=x+w && _y<=y+h) 
+		if (!deliriumUIWidgets[widgetNumber].toggleMode)
 		{
-			deliriumUIWidgets[widgetNumber].pressed = true;
+			if (_x>=x && _y>=y && _x<=x+w && _y<=y+h) 
+			{
+				deliriumUIWidgets[widgetNumber].pressed = true;
 
+			}
+			else
+			{
+				deliriumUIWidgets[widgetNumber].pressed = false;
+			}
 		}
 		else
 		{
-			deliriumUIWidgets[widgetNumber].pressed = false;
+			if (_x>=x && _y>=y && _x<=x+w && _y<=y+h) 
+			{
+				deliriumUIWidgets[widgetNumber].pressed = 1-deliriumUIWidgets[widgetNumber].pressed;
+
+			}
 		}
 	}
 }

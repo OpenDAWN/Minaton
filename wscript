@@ -80,7 +80,7 @@ def build(bld):
 
     # Build UI library
     obj = bld(features     = '%s %sshlib' % (ui_lang, ui_lang),
-              source       = ['minaton_ui.c', "deliriumUI/deliriumUI.c", "deliriumUI/button.c", "deliriumUI/knob.c", "deliriumUI/microknob.c", "deliriumUI/fader.c", pugl_impl],
+              source       = ['minaton_ui.c', "deliriumUI/deliriumUI.c", "deliriumUI/button.c", "deliriumUI/knob.c", "deliriumUI/microknob.c", "deliriumUI/fader.c", "deliriumUI/switch.c",  pugl_impl],
               name         = 'minaton_ui',
               target       = '%s/minaton_ui' % bundle,
               install_path = '${LV2DIR}/%s' % bundle,
