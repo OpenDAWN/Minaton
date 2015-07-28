@@ -16,17 +16,19 @@ typedef enum
 
 typedef struct {
 	deliriumUI_WidgetType	type;
-	int	x;
-	int	y;
-	int	w;
-	int	h;
+	float	x;
+	float	y;
+	float	w;
+	float	h;
 	bool	pressed;
 	bool	hover;
-	bool	toggle_mode;
+	bool	toggleMode;
 	const char* label;
 	float	value;
 	float	min;
 	float	max;
+	float clickTop;
+	float clickBottom;
 } deliriumUIWidget;
 
 typedef struct {
@@ -40,17 +42,19 @@ typedef struct {
 	int widgetHeight;
 	deliriumUIWidget* deliriumUIWidgets;
 	int numberOfUIWidgets;
+	int currentWidgetNumber;
+	int mouseButton[16];
 } deliriumUI;
 
 
 void cleanUpDeliriumUI(deliriumUI*);
 void setDeliriumUIGridSize(deliriumUI*, int, int, int, int);
 void setDeliriumUICurrentWindowSize(deliriumUI*, int, int);
-int addDeliriumUIWidget(deliriumUI*, deliriumUI_WidgetType, int, int, int, int, char*);
+int addDeliriumUIWidget(deliriumUI*, deliriumUI_WidgetType, float, float, float, float, char*);
 void displayDeliriumUIWidget(deliriumUI*, cairo_t*, int);
-void displayAllDeliriumUIWidgets(deliriumUI*, cairo_t* cr);
-void setDeliriumUIWidgetHover(deliriumUI*, int, bool);
-void isMouseOverDeliriumUIWidget(deliriumUI*, int, int);
+void displayAllDeliriumUIWidgets(deliriumUI*, cairo_t*);
+void isMouseOverDeliriumUIWidget(deliriumUI*, cairo_t*, int, int);
+void setValueFromMousePosition(deliriumUI*, cairo_t*, int, int, int);
 void hasMouseClickedDeliriumUIWidget(deliriumUI*, int, int);
 
 static void roundedBox(cairo_t* cr, double x, double y, double w, double h)
@@ -81,6 +85,9 @@ void displayDiliriumUIKnob(deliriumUI*, cairo_t*, int);
 void displayDiliriumUIMicroKnob(deliriumUI*, cairo_t*, int);
 void displayDiliriumUIFader(deliriumUI*, cairo_t*, int);
 void displayDiliriumUISwitch(deliriumUI*, cairo_t*, int);
+int getNumberOfWidgets(deliriumUI*);
+
+void setValueDiliriumUIFader(deliriumUI*, int, float);
 
 
 

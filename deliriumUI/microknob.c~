@@ -54,9 +54,9 @@ void displayDiliriumUIMicroKnob(deliriumUI* deliriumUI_window, cairo_t* cr, int 
 	cairo_set_source(cr, pat);
 	cairo_arc(cr, x+(w/2), y+(h/2), (w/2.5), 0.0, 2 * M_PI);
 	cairo_fill(cr);
-	cr->set_source_rgb(0.0, 0.0, 0.0);
-	cr->arc(x+(w/2) +cos_x, y+(h/2)+sin_y, (w/16), 0.0, 2 * M_PI);
-	cr->fill();
+	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+	cairo_arc(cr, x+(w/2) +cos_x, y+(h/2)+sin_y, (w/16), 0.0, 2 * M_PI);
+	cairo_fill(cr);
 
 	cairo_reset_clip(cr);	
 	cairo_pattern_destroy (pat);

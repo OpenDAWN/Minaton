@@ -12,7 +12,7 @@ void displayDiliriumUIMicroKnob(deliriumUI* deliriumUI_window, cairo_t* cr, int 
 	int w = deliriumUIWidgets[widgetNumber].w * deliriumUI_window->widgetWidth;
 	int h = deliriumUIWidgets[widgetNumber].h * deliriumUI_window->widgetHeight;
 
-	float value = 0.5; // deliriumUIWidgets[widgetNumber].value;
+	float value = deliriumUIWidgets[widgetNumber].value; // deliriumUIWidgets[widgetNumber].value;
 
 	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
 	cairo_rectangle(cr, x, y, w, h);

@@ -7,10 +7,10 @@ void displayDiliriumUISwitch(deliriumUI* deliriumUI_window, cairo_t* cr, int wid
 {
 	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
 
-	int x = deliriumUIWidgets[widgetNumber].x * deliriumUI_window->widgetWidth;
-	int y = deliriumUIWidgets[widgetNumber].y * deliriumUI_window->widgetHeight;
-	int w = deliriumUIWidgets[widgetNumber].w * deliriumUI_window->widgetWidth;
-	int h = deliriumUIWidgets[widgetNumber].h * deliriumUI_window->widgetHeight;
+	float x = deliriumUIWidgets[widgetNumber].x * deliriumUI_window->widgetWidth;
+	float y = deliriumUIWidgets[widgetNumber].y * deliriumUI_window->widgetHeight;
+	float w = deliriumUIWidgets[widgetNumber].w * deliriumUI_window->widgetWidth;
+	float h = deliriumUIWidgets[widgetNumber].h * deliriumUI_window->widgetHeight;
 
 	float value = deliriumUIWidgets[widgetNumber].pressed; // deliriumUIWidgets[widgetNumber].value;
 
@@ -99,7 +99,7 @@ void displayDiliriumUISwitch(deliriumUI* deliriumUI_window, cairo_t* cr, int wid
 
 	// Draw label
 	cairo_text_extents_t extents;
-	cairo_set_font_size(cr, h / 6);
+	cairo_set_font_size(cr, h / 5);
 	cairo_text_extents(cr, deliriumUIWidgets[widgetNumber].label, &extents);
 
 	cairo_move_to(cr,

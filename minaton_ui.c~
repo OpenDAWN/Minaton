@@ -57,20 +57,23 @@ static void
 onMotion(PuglView* view, int x, int y)
 {
 	minatonUI* self = (minatonUI*)puglGetHandle(view);
+	cairo_t* cr = puglGetContext(view);
 
 	// fprintf(stderr, "Motion: %d,%d\n", x, y);
-	isMouseOverDeliriumUIWidget(&self->deliriumUI_window, x, y);
+	isMouseOverDeliriumUIWidget(&self->deliriumUI_window, cr, x, y);
 }
 
 static void
 onMouse(PuglView* view, int button, bool press, int x, int y)
 {
+	if (press == true && button == 0) return;
+
 	minatonUI* self = (minatonUI*)puglGetHandle(view);
 
 	fprintf(stderr, "Mouse %d %s at %d,%d\n",
 	        button, press ? "down" : "up", x, y);
 
-	if (press == true && button == 0) return;
+	self->deliriumUI_window.mouseButton[button] = press;
 
 	if (press == true && button == 1)
 		hasMouseClickedDeliriumUIWidget(&self->deliriumUI_window, x, y);
@@ -83,6 +86,12 @@ static void
 onScroll(PuglView* view, int x, int y, float dx, float dy)
 {
 	minatonUI* self = (minatonUI*)puglGetHandle(view);
+	cairo_t* cr = puglGetContext(view);
+
+	if (dy!=0) 
+	{
+
+	}
 
 	fprintf(stderr, "Scroll %f %f\n", dx, dy);
 }
@@ -110,6 +119,12 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 
 	self->deliriumUI_window.deliriumUIWidgets = NULL;
 	self->deliriumUI_window.numberOfUIWidgets = 1;
+	self->deliriumUI_window.currentWidgetNumber = -1;
+
+	for (int b=0; b<16; ++b)
+	{
+		self->deliriumUI_window.mouseButton[b] = 0;
+	}
 
 	setDeliriumUIGridSize(&self->deliriumUI_window, self->width, self->height, 12, 12);
 
@@ -147,9 +162,12 @@ instantiate(const LV2UI_Descriptor*   descriptor,
 	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_MicroKnob, 3,10,1,2,"RELEASE");
 
 	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Button, 4,2,4,4,"Overlap 1");
-	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Switch, 6,5,2,4,"Overlap 2");
+	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Switch, 4,10,1,2,"DCO 1");
 
-	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Fader, 8,5,1,4,"Fader");
+	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Fader, 8,5,1,4,"FADER1");
+	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Fader, 9,5,1,4,"FADER2");
+	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Fader, 10,5,1,4,"FADER3");
+	addDeliriumUIWidget(&self->deliriumUI_window, deliriumUI_Fader, 11,5,1,4,"FADER4");
 
 
 

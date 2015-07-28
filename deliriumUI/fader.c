@@ -3,6 +3,19 @@
 #include <math.h>
 #define M_PI 3.14159265358979323846264338327
 
+void setValueDiliriumUIFader(deliriumUI* deliriumUI_window, int widgetNumber, float _value)
+{
+	if (_value<0) _value=0;
+	if (_value>1) _value=1;
+
+	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
+	deliriumUIWidgets[widgetNumber].value = _value;
+}
+
+
+
+//-------------------------------------------------------------------------------
+
 void displayDiliriumUIFader(deliriumUI* deliriumUI_window, cairo_t* cr, int widgetNumber)
 {
 	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
@@ -12,7 +25,10 @@ void displayDiliriumUIFader(deliriumUI* deliriumUI_window, cairo_t* cr, int widg
 	int w = deliriumUIWidgets[widgetNumber].w * deliriumUI_window->widgetWidth;
 	int h = deliriumUIWidgets[widgetNumber].h * deliriumUI_window->widgetHeight;
 
-	float value = 1; // deliriumUIWidgets[widgetNumber].value;
+	int sx = x;
+	int sy = y;
+	int sw = w;
+	int sh = h * 0.8;
 
 	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
 	cairo_rectangle(cr, x, y, w, h);
@@ -20,12 +36,12 @@ void displayDiliriumUIFader(deliriumUI* deliriumUI_window, cairo_t* cr, int widg
 
 	// Draw label
 	cairo_text_extents_t extents;
-	cairo_set_font_size(cr, h / 5);
+	cairo_set_font_size(cr, w / 5);
 	cairo_text_extents(cr, deliriumUIWidgets[widgetNumber].label, &extents);
 
 	cairo_move_to(cr,
 	              (x + w / 2) - extents.width / 2,
-	              (y + h) - extents.height / 4);
+	              (y + h) - extents.height / 2);
 
 	if (deliriumUIWidgets[widgetNumber].hover) {
 		cairo_set_source_rgba(cr, 1, 1, 1, 1);;
@@ -33,12 +49,33 @@ void displayDiliriumUIFader(deliriumUI* deliriumUI_window, cairo_t* cr, int widg
 		cairo_set_source_rgba(cr, 1, 1, 1, 0.6);;
 	}
 
+
 	cairo_show_text(cr, deliriumUIWidgets[widgetNumber].label);
 
-	y -= (h/8);
-	float fader_height = h - (h/8);
+	cairo_set_font_size(cr, w / 4);
 
-	float value_to_ypixel = fader_height*value;
+	cairo_move_to(cr,
+	              (x + w / 1.75) - extents.width / 2,
+	              y+(h/8));
+
+	 char res[32];
+
+	sprintf(res, "%f", deliriumUIWidgets[widgetNumber].value);
+	res[6] = 0;
+
+	cairo_show_text(cr, res );
+
+	// ------------------------------------------------------------------
+
+	float fader_top = y + ( h * (deliriumUIWidgets[widgetNumber].clickTop/100) );
+	float fader_height = (h - ( h * (deliriumUIWidgets[widgetNumber].clickBottom/100) ))
+		- ( h * (deliriumUIWidgets[widgetNumber].clickTop/100) );
+
+	float value = deliriumUIWidgets[widgetNumber].value; // deliriumUIWidgets[widgetNumber].value;
+
+	float value_to_ypixel = (value * fader_height) ;
+
+
 
 	// ------------------------------------------------------------------
 
@@ -48,36 +85,36 @@ void displayDiliriumUIFader(deliriumUI* deliriumUI_window, cairo_t* cr, int widg
 
 	for (int yl=0; yl<fader_height; yl+=(fader_height/10))
 	{
-		cairo_move_to(cr, x+(w/3), y+yl);
-	 	cairo_line_to(cr, x+(w-(w/3)), y+yl);
+		cairo_move_to(cr, x+(w/3), fader_top+yl);
+	 	cairo_line_to(cr, x+(w-(w/3)), fader_top+yl);
 	    	cairo_stroke(cr);
 	}
 
 	// draw vertical grey line down the middle
 	cairo_set_line_width(cr, 4);
 	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
-	cairo_move_to(cr, x+(w/2), y);
-	cairo_line_to(cr, x+(w/2), y + fader_height);
+	cairo_move_to(cr, x+(w/2), fader_top);
+	cairo_line_to(cr, x+(w/2), fader_top + fader_height);
 	cairo_stroke(cr);
 
 	// draw horizontal thin black line at fader_value height
 	cairo_set_line_width(cr, fader_height/6);
 	cairo_set_source_rgba(cr, 0.0,0.0,0.0,1.0);
-	cairo_move_to(cr, x+(w/4), y+value_to_ypixel);
-	cairo_line_to(cr, x+(w-(w/4)), y+value_to_ypixel);
+	cairo_move_to(cr, x+(w/4), fader_top+value_to_ypixel);
+	cairo_line_to(cr, x+(w-(w/4)), fader_top+value_to_ypixel);
 	cairo_stroke(cr);
 
 	// draw horizontal thick black line at fader_value height
 	cairo_set_line_width(cr, fader_height/4);
 	cairo_set_source_rgba(cr, 0.0,0.0,0.0,0.3);
-	cairo_move_to(cr, x+(w/4), y+value_to_ypixel);
-	cairo_line_to(cr, x+(w-(w/4)), y+value_to_ypixel + 1.1);
+	cairo_move_to(cr, x+(w/4), fader_top+value_to_ypixel);
+	cairo_line_to(cr, x+(w-(w/4)), fader_top+value_to_ypixel + 1.1);
 	cairo_stroke(cr);
 
 	// set up grad
 	cairo_pattern_t* pat;
 
-	pat = cairo_pattern_create_linear(x+(w/4), y+value_to_ypixel, x+(w-(w/4)), y+value_to_ypixel );
+	pat = cairo_pattern_create_linear(x+(w/4), fader_top+value_to_ypixel, x+(w-(w/4)), fader_top+value_to_ypixel );
 	cairo_pattern_add_color_stop_rgba(pat, 0.0,0.2,0.2,0.2,1);
         cairo_pattern_add_color_stop_rgba(pat, 0.4,0.8,0.8,0.8,1);
         cairo_pattern_add_color_stop_rgba(pat, 1.0,0.4,0.4,0.4,1);
@@ -85,8 +122,8 @@ void displayDiliriumUIFader(deliriumUI* deliriumUI_window, cairo_t* cr, int widg
 	// draw horizontal blue line at fader_value height
 	cairo_set_line_width(cr, h/24);
 	cairo_set_source(cr, pat);
-	cairo_move_to(cr, x+(w/4), y+value_to_ypixel);
-	cairo_line_to(cr, x+ (w-(w/4)), y+value_to_ypixel);
+	cairo_move_to(cr, x+(w/4), fader_top+value_to_ypixel);
+	cairo_line_to(cr, x+ (w-(w/4)), fader_top+value_to_ypixel);
 	cairo_stroke(cr);
 
 	cairo_reset_clip(cr);

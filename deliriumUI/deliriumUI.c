@@ -4,7 +4,7 @@
 //------------------------------------------------------------------
 // Add Widget
 
-int addDeliriumUIWidget(deliriumUI* deliriumUI_window, deliriumUI_WidgetType widgetType, int _x, int _y, int _w, int _h, char* _label)
+int addDeliriumUIWidget(deliriumUI* deliriumUI_window, deliriumUI_WidgetType widgetType, float _x, float _y, float _w, float _h, char* _label)
 {
 	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
 	int numberOfUIWidgets = deliriumUI_window->numberOfUIWidgets;
@@ -23,9 +23,24 @@ int addDeliriumUIWidget(deliriumUI* deliriumUI_window, deliriumUI_WidgetType wid
 	deliriumUIWidgets[numberOfUIWidgets-1].hover = false;
 	deliriumUIWidgets[numberOfUIWidgets-1].label = _label;
 	deliriumUIWidgets[numberOfUIWidgets-1].value = 0;
+	deliriumUIWidgets[numberOfUIWidgets-1].toggleMode = false;
+	deliriumUIWidgets[numberOfUIWidgets-1].clickTop = 0;
+	deliriumUIWidgets[numberOfUIWidgets-1].clickBottom = 0;
 
-	if (widgetType != deliriumUI_Switch) deliriumUIWidgets[numberOfUIWidgets-1].toggleMode = false;
-		else deliriumUIWidgets[numberOfUIWidgets-1].toggleMode = true;
+	switch (widgetType)
+	{
+		
+		case deliriumUI_Fader:
+			deliriumUIWidgets[numberOfUIWidgets-1].clickTop = 20;
+			deliriumUIWidgets[numberOfUIWidgets-1].clickBottom = 20;
+			break;	
+
+		case deliriumUI_Switch:
+			deliriumUIWidgets[numberOfUIWidgets-1].toggleMode = true;
+			break;
+	}
+
+
 
 	numberOfUIWidgets++;
 
@@ -112,41 +127,68 @@ void displayAllDeliriumUIWidgets(deliriumUI* deliriumUI_window, cairo_t* cr)
 	}
 }
 
-//------------------------------------------------------------------
-// Set widget hover flag
+//--------------------------------------------------------------------------
 
-void setDeliriumUIWidgetHover(deliriumUI* deliriumUI_window, int widgetNumber, bool _hover)
-{
-	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
-
-	deliriumUIWidgets[widgetNumber].hover = _hover;
-}
-
-//------------------------------------------------------------------
-// check if mouse is hovering over widget
-void isMouseOverDeliriumUIWidget(deliriumUI* deliriumUI_window, int _x, int _y)
+void setValueFromMousePosition(deliriumUI* deliriumUI_window, int widgetNumber, int _x, int _y)
 {
 
 	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
 	int numberOfUIWidgets = deliriumUI_window->numberOfUIWidgets;
 
+	float x = deliriumUIWidgets[widgetNumber].x * deliriumUI_window->widgetWidth;
+	float y = deliriumUIWidgets[widgetNumber].y * deliriumUI_window->widgetHeight;
+	float w = deliriumUIWidgets[widgetNumber].w * deliriumUI_window->widgetWidth;
+	float h = deliriumUIWidgets[widgetNumber].h * deliriumUI_window->widgetHeight;
+
+	float clickTop = h * (deliriumUIWidgets[widgetNumber].clickTop/100);
+	float clickBottom = h * (deliriumUIWidgets[widgetNumber].clickBottom/100);
+	
+	y += clickTop;
+	h -= (clickTop+clickBottom);
+
+	float newValue = (_y - y) / h;
+
+	printf("%f - %f\n",clickTop, clickBottom);
+
+	setValueDiliriumUIFader(deliriumUI_window, widgetNumber, newValue );
+	deliriumUIWidgets[widgetNumber].hover = true;
+}
+
+//------------------------------------------------------------------
+// check if mouse is hovering over widget
+void isMouseOverDeliriumUIWidget(deliriumUI* deliriumUI_window, cairo_t* cr, int _x, int _y)
+{
+
+	deliriumUIWidget* deliriumUIWidgets = deliriumUI_window->deliriumUIWidgets;
+	int numberOfUIWidgets = deliriumUI_window->numberOfUIWidgets;
+
+	deliriumUI_window->currentWidgetNumber = -1;
+
 	for (int widgetNumber=0; widgetNumber<numberOfUIWidgets-1; ++widgetNumber)
 	{
-		int x = deliriumUIWidgets[widgetNumber].x * deliriumUI_window->widgetWidth;
-		int y = deliriumUIWidgets[widgetNumber].y * deliriumUI_window->widgetHeight;
-		int w = deliriumUIWidgets[widgetNumber].w * deliriumUI_window->widgetWidth;
-		int h = deliriumUIWidgets[widgetNumber].h * deliriumUI_window->widgetHeight;
+		float x = deliriumUIWidgets[widgetNumber].x * deliriumUI_window->widgetWidth;
+		float y = deliriumUIWidgets[widgetNumber].y * deliriumUI_window->widgetHeight;
+		float w = deliriumUIWidgets[widgetNumber].w * deliriumUI_window->widgetWidth;
+		float h = deliriumUIWidgets[widgetNumber].h * deliriumUI_window->widgetHeight;
 
-		w -= 2;
-		h -= 2;
-		
-		if (_x>=x && _y>=y && _x<=x+w && _y<=y+h) 
+		if (deliriumUIWidgets[widgetNumber].pressed && deliriumUIWidgets[widgetNumber].type==deliriumUI_Fader)
 		{
-			deliriumUIWidgets[widgetNumber].hover = true;
+
+			setValueFromMousePosition(deliriumUI_window, widgetNumber, _x, _y);
+			displayDeliriumUIWidget(deliriumUI_window, cr, widgetNumber);
 		}
-		else
+
+		if (!deliriumUI_window->mouseButton[1])
 		{
-			deliriumUIWidgets[widgetNumber].hover = false;
+			if (_x>=x && _y>=y && _x<=x+w && _y<=y+h) 
+			{
+				deliriumUIWidgets[widgetNumber].hover = true;
+				deliriumUI_window->currentWidgetNumber = widgetNumber;
+			}
+			else
+			{
+				deliriumUIWidgets[widgetNumber].hover = false;
+			}
 		}
 	}
 }
@@ -162,19 +204,21 @@ void hasMouseClickedDeliriumUIWidget(deliriumUI* deliriumUI_window, int _x, int 
 
 	for (int widgetNumber=0; widgetNumber<numberOfUIWidgets-1; ++widgetNumber)
 	{
-		int x = deliriumUIWidgets[widgetNumber].x * deliriumUI_window->widgetWidth;
-		int y = deliriumUIWidgets[widgetNumber].y * deliriumUI_window->widgetHeight;
-		int w = deliriumUIWidgets[widgetNumber].w * deliriumUI_window->widgetWidth;
-		int h = deliriumUIWidgets[widgetNumber].h * deliriumUI_window->widgetHeight;
+		float x = deliriumUIWidgets[widgetNumber].x * deliriumUI_window->widgetWidth;
+		float y = deliriumUIWidgets[widgetNumber].y * deliriumUI_window->widgetHeight;
+		float w = deliriumUIWidgets[widgetNumber].w * deliriumUI_window->widgetWidth;
+		float h = deliriumUIWidgets[widgetNumber].h * deliriumUI_window->widgetHeight;
 
 		w -= 2;
 		h -= 2;
-		
+	
 		if (!deliriumUIWidgets[widgetNumber].toggleMode)
 		{
-			if (_x>=x && _y>=y && _x<=x+w && _y<=y+h) 
+			if (_x>=x && _y>=y && _x<=x+w && _y<=y+h && deliriumUIWidgets[widgetNumber].type==deliriumUI_Fader) 
 			{
 				deliriumUIWidgets[widgetNumber].pressed = true;
+				setValueFromMousePosition(deliriumUI_window, widgetNumber, _x, _y);
+
 
 			}
 			else
@@ -191,6 +235,14 @@ void hasMouseClickedDeliriumUIWidget(deliriumUI* deliriumUI_window, int _x, int 
 			}
 		}
 	}
+}
+
+//------------------------------------------------------------------
+// Return number of widgets
+
+int getNumberOfWidgets(deliriumUI* deliriumUI_window)
+{
+	return deliriumUI_window->numberOfUIWidgets;
 }
 
 //------------------------------------------------------------------
